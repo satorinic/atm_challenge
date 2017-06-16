@@ -3,6 +3,18 @@ require 'date'
 
 describe Account do
 
+  let(:person) {instance_double('Person', name: 'Niclas')}
+  subject { described_class.new(owner: person) }
+
+
+  it 'check if account has a owner' do
+    expect(subject.owner).to eq person
+  end
+
+  it 'is expected to raise error if no owner is set' do
+  expect { described_class.new }.to raise_error 'An Account owner is required'
+  end
+
   it 'check the length of the pin code' do
     number = 1234
     number_length = Math.log10(number).to_i + 1
@@ -13,7 +25,7 @@ describe Account do
     expect(subject.balance).to eq 0
   end
 
-  it 'check if the card has an expiry date on initialize' do
+  it 'check if the card has an expire date on initialize' do
     expected_date = Date.today.next_year(5).strftime("%m/%y")
     expect(subject.exp_date).to eq expected_date
   end
@@ -22,9 +34,9 @@ describe Account do
     expect(subject.account_status).to eq :active
   end
 
-#using instance method because it makes it easier
+#using instance method because for in object orienterd programming it is better to use classes for more general results, not for behaviour??? elaborate more and be more specific
   it 'check if account deactivates (using Instance method)' do
     subject.deactivate
     expect(subject.account_status).to eq :deactivated
-    end
+  end
 end
